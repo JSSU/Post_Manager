@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <title>PostController</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="globe.ico">
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '2094242160819146',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v2.11'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+  var res;
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      res = response;
+      alert('Status updated!!'+response.status+", and "+response.authResponse.userID);
+    });
+  }
+</script>
+</head>
+<body>
+
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+  <app-root></app-root>
+</body>
+</html>
+
+  <!-- <script>
+    $(document).ready(function() {
+        $.ajaxSetup({ cache: true });
+        $.getScript('https://connect.facebook.net/en_US/sdk.js', function(){
+            FB.init({
+                appId: '2094242160819146',
+                version: 'v2.11' // or v2.1, v2.2, v2.3, ...
+            });     
+            $('#loginbutton,#feedbutton').removeAttr('disabled');
+            FB.getLoginStatus(function(){
+                alert('Status updated!!');
+                //logic
+            });
+        });
+    });
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      res = response;
+      alert('Status updated!!'+response.status+", and "+response.authResponse.userID);
+    });
+  }
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  } + 
+  <div id="status"></div>
+</script> -->
+
+

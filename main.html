@@ -1,0 +1,21 @@
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <title>Posts Manager</title>
+  <script>
+        $(document).ready(function() {
+            $.ajaxSetup({ cache: true });
+            $.getScript('https://connect.facebook.net/en_US/sdk.js', function(){
+                FB.init({
+                    appId: '2094242160819146',
+                    version: 'v2.11' // or v2.1, v2.2, v2.3, ...
+                });     
+                $('#loginbutton,#feedbutton').removeAttr('disabled');
+                FB.getLoginStatus(function(){
+                    alert('Status updated!!');
+                    //logic
+                });
+            });
+        });
+  </script>
+</head>
