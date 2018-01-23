@@ -1,0 +1,55 @@
+<div class="row mb-2">
+    <div class="col-md-6">
+          <h3 class="mb-0 text-dark">Published Posts</h3>
+          <table class="table table-hover table-dark">
+              <thead>
+                  <tr>
+                    <th scope="col" colspan="4">Page Name</th>
+                    <th scope="col">Add Post</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="4">
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" >
+                      someName</button>
+                  </td>
+                  <td><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                    +</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+    </div><!-- item -->
+    <div class="col-md-6">
+        <h3 class="mb-0 text-dark">Unpublished Posts</h3>
+    </div>
+</div>
+<div style="text-align:center; margin-top:20px;">
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"> <!-- data-target="#openModal" -->
+     Column/Code Definitions</button>
+</div>
+<div id="myModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" > 
+<!-- style="display: block;" style="overflow: auto; overflow-y: hidden;"-->
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel">some thing</h4>
+       </div>
+       <div class="modal-body">
+          <!-- badge lists here-->
+          <h3>Posts</h3>
+          <div *ngFor ="let post of posts">
+            <h3>{{post.id}}</h3>
+            <p>{{post.message}} + {{post.story}}</p>
+          </div>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       </div>
+
+     </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div>
+<!-- Panal box End here -->
+

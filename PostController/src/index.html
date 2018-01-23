@@ -43,7 +43,7 @@
         if (response.status === 'connected') {
           testAPI();
         } else {
-          document.getElementById('status').innerHTML = 'Please log into this app.';
+          document.getElementById('status').innerHTML = 'Check Your Posts';
         }
       }
       function testAPI() {
@@ -58,6 +58,7 @@
           console.log(ids);
         });
       }
+      
     </script>
     </head>
 
@@ -94,27 +95,14 @@
         </div>
       </div>
     </header>
-    <app-root></app-root>
 
-    <main role="main">
-
+    <div class="container">
       <section class="jumbotron text-center">
         <div class="text-center" id="status">Check Your Posts</div>
-        <fb:login-button class="text-center" autologoutlink="true" size="large" scope="public_profile,email" onlogin="checkLoginState();">Login with Facebook</fb:login-button>
-
-
-        <div class="container">
-          <h1 class="jumbotron-heading">infor</h1>
-          <p class="lead text-muted">Something short and leading about the collection below—its contents, 
-              the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over 
-          </p>
-          <p>
-            <a href="#" class="btn btn-primary my-2">Main call to action</a>
-            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-          </p>
-        </div>
+        <fb:login-button class="text-center" autologoutlink="true" size="large" scope="public_profile,email" onlogin="checkLoginState();">Login with Facebook</fb:login-button>          
+        <app-root></app-root>
       </section>
-    </main>
+    </div>
     <footer class="footer">
     </footer>
   </body>
