@@ -1,79 +1,121 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <title>PostController</title>
-  <base href="/">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="globe.ico">
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '2094242160819146',
-      cookie     : true,
-      xfbml      : true,
-      version    : 'v2.11'
-    });
-      
-    FB.AppEvents.logPageView();   
-      
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-  var res;
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      res = response;
-      alert('Status updated!!'+response.status+", and "+response.authResponse.userID);
-    });
-  }
-</script>
-</head>
-<body>
-
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
-  <app-root></app-root>
-</body>
-</html>
-
-  <!-- <script>
-    $(document).ready(function() {
-        $.ajaxSetup({ cache: true });
-        $.getScript('https://connect.facebook.net/en_US/sdk.js', function(){
-            FB.init({
-                appId: '2094242160819146',
-                version: 'v2.11' // or v2.1, v2.2, v2.3, ...
-            });     
-            $('#loginbutton,#feedbutton').removeAttr('disabled');
-            FB.getLoginStatus(function(){
-                alert('Status updated!!');
-                //logic
-            });
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/x-icon" href="globe.ico">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <title>PostController</title>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '2094242160819146',//'324026418114130'
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v2.11'
         });
-    });
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      res = response;
-      alert('Status updated!!'+response.status+", and "+response.authResponse.userID);
-    });
-  }
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
-    });
-  } + 
-  <div id="status"></div>
-</script> -->
+        FB.AppEvents.logPageView();   
+      };
+    
+      (function(d, s, id){
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) {return;}
+          js = d.createElement(s); js.id = id;
+          js.src = "https://connect.facebook.net/en_US/sdk.js";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    
+      var reslog;
+      function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+          statusChangeCallback(response);
+        });
+      }
+      function statusChangeCallback(response) {
+        console.log('statusChangeCallback');
+        console.log(response);
+        if (response.status === 'connected') {
+          testAPI();
+        } else {
+          document.getElementById('status').innerHTML = 'Please log into this app.';
+        }
+      }
+      function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+          document.getElementById('status').innerHTML =
+            'Thanks for logging in, ' + response.name + '!';
+        });
+        FB.api('/me/accounts', function(response){
+          reslog = response;
+          var ids = response.data.map(a => a.id);
+          console.log(ids);
+        });
+      }
+    </script>
+    </head>
+
+  <body>
+
+    <header>
+      <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-8 col-md-7 py-4">
+              <h4 class="text-white">About</h4>
+              <p class="text-muted">Create an application for the management of a Facebook Page. The app will be able to create
+                regular posts to a Facebook Page as well as Unpublished Page Posts. The app will be able to
+                list posts from a page (both published and unpublished), and show the number of people who
+                have viewed each post.</p>
+            </div>
+            <div class="col-sm-4 offset-md-1 py-4">
+              <h4 class="text-white">QuickLinks</h4>
+              <ul class="list-unstyled">
+                <li><a href="https://developers.facebook.com/tools/explorer/145634995501895?method=GET&path=me%2Faccounts&version=v2.11" class="text-white">GUI API</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+          <a href="#" class="navbar-brand d-flex align-items-center">
+            <i class="fa fa-file" style="padding-right: 15px;"></i><strong>Page Posts Manager</strong>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <app-root></app-root>
+
+    <main role="main">
+
+      <section class="jumbotron text-center">
+        <div class="text-center" id="status">Check Your Posts</div>
+        <fb:login-button class="text-center" autologoutlink="true" size="large" scope="public_profile,email" onlogin="checkLoginState();">Login with Facebook</fb:login-button>
 
 
+        <div class="container">
+          <h1 class="jumbotron-heading">infor</h1>
+          <p class="lead text-muted">Something short and leading about the collection below—its contents, 
+              the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over 
+          </p>
+          <p>
+            <a href="#" class="btn btn-primary my-2">Main call to action</a>
+            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+    </footer>
+  </body>
+</html>
