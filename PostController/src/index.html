@@ -11,55 +11,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
     <title>PostController</title>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '2094242160819146',//'324026418114130'
-          cookie     : true,
-          xfbml      : true,
-          version    : 'v2.11'
-        });
-        FB.AppEvents.logPageView();   
-      };
-    
-      (function(d, s, id){
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) {return;}
-          js = d.createElement(s); js.id = id;
-          js.src = "https://connect.facebook.net/en_US/sdk.js";
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    
-      var reslog;
-      function checkLoginState() {
-        FB.getLoginStatus(function(response) {
-          statusChangeCallback(response);
-        });
-      }
-      function statusChangeCallback(response) {
-        console.log('statusChangeCallback');
-        console.log(response);
-        if (response.status === 'connected') {
-          testAPI();
-        } else {
-          document.getElementById('status').innerHTML = 'Check Your Posts';
-        }
-      }
-      function testAPI() {
-        console.log('Welcome!  Fetching your information.... ');
-        FB.api('/me', function(response) {
-          document.getElementById('status').innerHTML =
-            'Thanks for logging in, ' + response.name + '!';
-        });
-        FB.api('/me/accounts', function(response){
-          reslog = response;
-          var ids = response.data.map(a => a.id);
-          console.log(ids);
-        });
-      }
-      
-    </script>
     </head>
 
   <body>
@@ -98,8 +51,6 @@
 
     <div class="container">
       <section class="jumbotron text-center">
-        <div class="text-center" id="status">Check Your Posts</div>
-        <fb:login-button class="text-center" autologoutlink="true" size="large" scope="public_profile,email" onlogin="checkLoginState();">Login with Facebook</fb:login-button>          
         <app-root></app-root>
       </section>
     </div>

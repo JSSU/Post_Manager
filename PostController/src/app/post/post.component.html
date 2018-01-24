@@ -1,7 +1,15 @@
+<div class="text-center" id="status">{{status}}</div>
+<!-- <<fb:login-button class="text-center" autologoutlink="true" size="large" scope="public_profile,email" onlogin="checkLoginState();">Login with Facebook</fb:login-button>           -->
+<button *ngIf="!isConnect" (click)="loginWithFacebook()">Log in with Facebook</button>
+<button *ngIf="isConnect"  (click)="logOut()">Log Out</button>
+
+
+<!-- <fb-post href="https://www.facebook.com/20531316728/posts/10154009990506729/"></fb-post> -->
+<!-- <fb-page href="https://facebook.com/136792923789047"></fb-page> -->
 <div class="row mb-2">
     <div class="col-md-6">
           <h3 class="mb-0 text-dark">Published Posts</h3>
-          <table class="table table-hover table-dark">
+          <table class="table table-hover table-dark table-bordered">
               <thead>
                   <tr>
                     <th scope="col" colspan="4">Page Name</th>
@@ -9,39 +17,71 @@
                   </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td colspan="4">
-                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" >
-                      someName</button>
-                  </td>
-                  <td><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                    +</button>
-                  </td>
-                </tr>
+                <tr *ngFor = "let page of pages">
+                    <td *ngIf = "page.is_published" colspan="4">
+                        <button type="button" (click)="loadPost(page.id, page.name)" class="btn btn-primary btn-lg" 
+                                data-toggle="modal" data-target="#myModal" >
+                            {{page.name}}
+                        </button>
+                    </td>
+                    <td *ngIf = "page.is_published">                      
+                        <button type="button" class="btn btn-secondary btn-lg" 
+                                data-toggle="modal" data-target="#postPanal"
+                                (click)="AddPost(page.id, page.name)">
+                        +</button>
+                    </td>
+                </tr> 
               </tbody>
             </table>
     </div><!-- item -->
     <div class="col-md-6">
         <h3 class="mb-0 text-dark">Unpublished Posts</h3>
+        <table class="table table-hover table-dark table-bordered">
+            <thead>
+                <tr>
+                  <th scope="col" colspan="4">Page Name</th>
+                  <th scope="col">Add Post</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor = "let page of pages">
+                  <td *ngIf = "!page.is_published" colspan="4">
+                      <button type="button" (click)="loadPost(page.id, page.name)" class="btn btn-primary btn-lg" 
+                              data-toggle="modal" data-target="#myModal" >
+                          {{page.name}}
+                      </button>
+                  </td>
+                  <td *ngIf = "!page.is_published">                      
+                      <button type="button" class="btn btn-secondary btn-lg" 
+                      data-toggle="modal" data-target="#postPanal"
+                      (click)="AddPost(page.id, page.name)">
+                        +</button>
+                  </td>
+              </tr> 
+            </tbody>
+          </table>
     </div>
 </div>
 <div style="text-align:center; margin-top:20px;">
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"> <!-- data-target="#openModal" -->
-     Column/Code Definitions</button>
+     <button class="btn btn-primary btn-lg" (click)="show_pagelist_api()">Refresh</button>
 </div>
+
+<!-- list all posts-->
 <div id="myModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" > 
 <!-- style="display: block;" style="overflow: auto; overflow-y: hidden;"-->
    <div class="modal-dialog" role="document">
      <div class="modal-content">
        <div class="modal-header">
-         <h4 class="modal-title" id="myModalLabel">some thing</h4>
+         <h4 class="modal-title" id="myModalLabel">{{PannelPageName}}({{posts?.length}})</h4>
        </div>
        <div class="modal-body">
+          <!-- <div class="fb-page" data-href="https://www.facebook.com/{{ModalID}}"></div> -->
+          <!-- <fb-page href="https://facebook.com/{{ModalID}}"></fb-page> -->
           <!-- badge lists here-->
-          <h3>Posts</h3>
+          <div *ngIf = "posts?.length ==0" class="text-align:middle;">Empty</div> 
           <div *ngFor ="let post of posts">
-            <h3>{{post.id}}</h3>
-            <p>{{post.message}} + {{post.story}}</p>
+            <!-- <h3>{{post.id}}</h3> -->
+            <a href="https://www.facebook.com/{{post.id}}" target="_blank">{{post.message}} {{post.story}}</a>
           </div>
        </div>
        <div class="modal-footer">
@@ -52,4 +92,25 @@
    </div><!-- /.modal-dialog -->
 </div>
 <!-- Panal box End here -->
+
+
+<!-- Panal for add post Start here -->
+<div id="postPanal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" > 
+    <!-- style="display: block;" style="overflow: auto; overflow-y: hidden;"-->
+       <div class="modal-dialog" role="document">
+         <div class="modal-content">
+           <div class="modal-header">
+             <h4 class="modal-title" id="myModalLabel">New post to <b>{{PannelPageName}}</b></h4>
+           </div>
+           <div class="modal-body">
+              <textarea class="form-control" id="exampleTextarea" [(ngModel)]='postMessage' rows="3"></textarea>
+           </div>
+           <div class="modal-footer">
+             <button type="button" class="btn btn-primary btn-default" (click)="publishPost()" data-dismiss="modal">Publish</button>
+           </div>
+    
+         </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+    </div>
+<!-- Panal for add post End here -->
 

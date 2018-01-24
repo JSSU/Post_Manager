@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { PostComponent } from './post/post.component';
-
+import { FacebookModule } from 'ngx-facebook';
 
 @NgModule({
   declarations: [
@@ -15,7 +15,8 @@ import { PostComponent } from './post/post.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    FacebookModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
