@@ -82,6 +82,7 @@
           <div *ngFor ="let post of posts">
             <!-- <h3>{{post.id}}</h3> -->
             <a href="https://www.facebook.com/{{post.id}}" target="_blank">{{post.message}} {{post.story}}</a>
+            <i class="fa fa-eye" aria-hidden="true"></i> {{post.views}}
           </div>
        </div>
        <div class="modal-footer">
@@ -114,3 +115,8 @@
     </div>
 <!-- Panal for add post End here -->
 
+
+
+<div style="text-align:center; margin-top:20px;">
+    <button class="btn btn-primary btn-lg" (click)="testAPI()">click to test</button>
+</div>

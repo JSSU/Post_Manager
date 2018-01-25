@@ -6,7 +6,6 @@ import 'rxjs/add/operator/map';
 import { FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
 import { LoginOptions } from 'ngx-facebook/dist/esm/models/login-options';
 
-
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -21,9 +20,10 @@ export class PostComponent implements OnInit {
   PannelPageName: string; // pannel head
   pageId: string; //for create new post{{}}
   postMessage: string="";
+  pageToken: string;
 
   options: LoginOptions = {
-    scope:"public_profile, pages_show_list, publish_actions, publish_pages, manage_pages",
+    scope:"public_profile, pages_show_list, publish_actions, publish_pages, manage_pages, read_insights",
   };
 
   constructor(private http: Http, private fb:FacebookService, private postsService: PostsService) { 
@@ -77,13 +77,32 @@ export class PostComponent implements OnInit {
       })
         //console.log(this.pages[0].id+this.pages[0].name+this.pages[0].is_published);
   }
-  loadPost(id:string, name:string): void{
+  loadPost(id:string, name:string): void{ //id is page
     this.fb.api(id+'/feed', 'get', {})
     .then(response => {
-      console.log(response.data);
+      //console.log(response.data.length);
       this.posts = response.data;
-    });
+      for(let post of this.posts)
+      {
+          this.fb.api(id,"get",{"fields":"access_token"})//pageID
+          .then(response=>{
+            //console.log(response.access_token);
+            this.fb.api(post.id+"/insights/post_stories",'get',{access_token:response.access_token}).then(
+              response=>{
+                //console.log(response);
+                //console.log(response.data[0].values[0].value);
+                //post.views=
+                post.views=response.data[0].values[0].value;
+              }
+            );
+          });
+      }
+    }
+   );
     this.PannelPageName = name;
+  }
+  postViews(): void{
+    
   }
   AddPost(id:string, name:string): void{
     this.PannelPageName = name;
@@ -96,6 +115,18 @@ export class PostComponent implements OnInit {
     });
     this.postMessage = "";
   }
+  // testAPI():void{
+  //   this.fb.api("136792923789047","get",{"fields":"access_token"})//pageID
+  //   .then(response=>{
+  //     console.log(response.access_token);
+  //     //this.pageToken=response.access_token;
+  //     this.fb.api("136792923789047_136798500455156/insights/post_stories",'get',{access_token:response.access_token}).then(
+  //       response=>{
+  //         console.log(response);
+  //       }
+  //     );
+  //   });
+  // }
 }
 
 interface Page{
@@ -108,4 +139,5 @@ interface Post{
    message: string;
    story: string;
    id: string; 
+   views: string;
 }
