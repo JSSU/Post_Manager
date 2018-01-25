@@ -1,3 +1,11 @@
+<div *ngIf="is_success" class="alert alert-success">
+    <a (click)="closeAlert()" class="close" aria-label="close" title="close">×</a>
+    <strong>Success!</strong> Post be submited to {{PannelPageName}}
+</div>
+<div *ngIf="alert" class="alert alert-danger">
+    <a (click)="closeAlert()" class="close" aria-label="close" title="close">×</a>
+    <strong>Failed!</strong> Not able to submited to {{PannelPageName}}: {{errorMessage}}
+</div>
 <div class="text-center" id="status">{{status}}</div>
 <!-- <<fb:login-button class="text-center" autologoutlink="true" size="large" scope="public_profile,email" onlogin="checkLoginState();">Login with Facebook</fb:login-button>           -->
 <button *ngIf="!isConnect" (click)="loginWithFacebook()">Log in with Facebook</button>
@@ -116,7 +124,7 @@
 <!-- Panal for add post End here -->
 
 
-
+<!-- 
 <div style="text-align:center; margin-top:20px;">
     <button class="btn btn-primary btn-lg" (click)="testAPI()">click to test</button>
-</div>
+</div> -->

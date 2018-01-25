@@ -21,6 +21,9 @@ export class PostComponent implements OnInit {
   pageId: string; //for create new post{{}}
   postMessage: string="";
   pageToken: string;
+  is_success: boolean=false; //success alert box
+  alert: boolean = false; //danger alert box
+  errorMessage: string="";
 
   options: LoginOptions = {
     scope:"public_profile, pages_show_list, publish_actions, publish_pages, manage_pages, read_insights",
@@ -109,11 +112,23 @@ export class PostComponent implements OnInit {
     this.pageId = id;
   }
   publishPost():void{
+    //alert errorbox test here 
     this.fb.api(this.pageId+'/feed', 'post', {message: this.postMessage})
     .then(response => {
       console.log(response);
+      this.is_success=true;
+    })
+    .catch(err =>{
+      console.log(err);
+      this.errorMessage = err.error_user_msg +" "+ err.message;
+      this.alert=true;
     });
     this.postMessage = "";
+  }
+  closeAlert():void{
+    this.is_success=false;
+    this.alert=false;
+    this.errorMessage = "";
   }
   // testAPI():void{
   //   this.fb.api("136792923789047","get",{"fields":"access_token"})//pageID
