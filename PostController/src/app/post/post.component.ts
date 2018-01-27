@@ -103,6 +103,8 @@ export class PostComponent implements OnInit {
     }
    );
     this.PannelPageName = name;
+    this.is_success = false;
+    this.alert=false;
   }
   postViews(): void{
     
